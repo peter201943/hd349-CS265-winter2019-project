@@ -1,10 +1,8 @@
 BEGIN {
-    FS = "^[A-Z]+[;:]"
+    FS = "[;:]"
     RS = "\r\n"
 }
 
 {
-    if($2 != "VEVENT") {
-        print $2
-    } 
+    print $1 "<matches_field>" $2
 }

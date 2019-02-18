@@ -24,7 +24,6 @@ UID:20190218T211232Z-808085974@marudot.com
 DTSTART;VALUE=DATE:20190227
 DTEND;VALUE=DATE:20190228
 SUMMARY:Event Three
-URL:www.eventthree.com
 DESCRIPTION:This is event three. It's an all-day event.
 LOCATION:Location Three
 END:VEVENT

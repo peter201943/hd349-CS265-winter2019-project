@@ -4,7 +4,7 @@ BEGIN {
 }
 
 {
-    if($1 != "BEGIN" || $1 != "END"){
+    if($1 != "BEGIN" && $1 != "END"){
         print $1
     }
 }

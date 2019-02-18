@@ -1,8 +1,6 @@
 BEGIN {
     FS = "[;:]"
     RS = "\r\n"
-    print "<html> <head></head><body>"
-    print "<table> <th.....?"
 }
 
 {
@@ -16,6 +14,4 @@ BEGIN {
 }
 
 END {
-    print "</table>"
-    print "</body>"    
 }

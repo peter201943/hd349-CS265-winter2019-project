@@ -1,0 +1,48 @@
+
+Project Notes
+
+* General Info
+ - Peter Mangelsdorf
+ - Henry Dang
+ - 11 February 2019
+ - CS 265
+* Techinques
+ - Using AWK language
+ - Take blocks between vevent
+ - File is assumed valid
+ - File follows specific format - Google format
+ - vevent and vecalendar
+ - vevent - individual events - alarms, etc. do not want
+ - need to format dates to readable format with regex
+ - separated by "t"
+ - ignore all other tags
+ - convert to an html table - esp. headers
+* Ideas
+ - Read through entire file
+ - cut out only needed events
+ - save needed some to temporary file on disk
+ - look through unique fields and headers
+ - use an awk dictionary trick - see mongan's example
+ - Then create html table headers - loop through
+ - go through file once more, check for headers, if none exist add it
+ - Need to check for each field, if dne, put nothing
+ - Only 1 argument - website link
+ - Needs make file, run on cli
+* Implementation
+ - Test files
+ - 1 ideal
+ - 1 awful - use to check that v alarm is skipped over
+ - Tags can be nested inside other tags
+ - Primarily newlines, semicolons, and capital letters
+ - Beware special characters: . , / \ | :
+* Further Readings
+ - ical's - limited tutorials
+ - ics files
+ - https://apps.marudot.com/ical/
+
+
+
+
+
+ - Awk Primary Arrays
+ 

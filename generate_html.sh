@@ -25,7 +25,7 @@ while read line; do
     then
         # Okay, now you need to pad the empty fields with whatever you just chopped.
         echo "BEGIN:VEVENT" >> clean_out
-        #echo "sed -n $start_line, $((current_line-1)) p $1"
+        echo "sed -n $start_line, $((current_line-1)) p $1"
 
         echo "$(sed -n "$start_line,$((current_line-1)) p" $1)" > clean_out_temporary
         ./pad_empty_fields.sh clean_out_temporary >> clean_out
@@ -34,5 +34,3 @@ while read line; do
     fi
     current_line=$((current_line+1))
 done < $1
-
-cat clean_out

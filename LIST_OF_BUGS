@@ -1,0 +1,18 @@
+BUG 1:
+
+If a file has two colons, it will mess up the delimiter for awk.
+
+You need to get all indexes 1 through infinity, and use all of them.
+
+BUG 2:
+
+We lack good testing data. We need to test tags that also have that tag inside as a string.
+
+Like :
+
+DESCRIPTION:DESCRIPTION:Hi there!
+
+Should give
+
+KEY = DESCRIPTION
+Value = DESCRIPTION:Hi there!

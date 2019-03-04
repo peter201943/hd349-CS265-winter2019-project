@@ -16,3 +16,9 @@ Should give
 
 KEY = DESCRIPTION
 Value = DESCRIPTION:Hi there!
+
+MODIFICATION:
+
+For good styling, you should juts remove the :
+
+RS = "\n", since that's the default RS anyway.

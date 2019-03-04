@@ -1,3 +1,6 @@
+# This accepts a SINGLE VEVENT, without the BEGIN:VEVENT
+# and END:VEVENT tags
+
 BEGIN {
     FS = "[;:]"
 }

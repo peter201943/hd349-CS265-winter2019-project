@@ -1,5 +1,7 @@
 #!/bin/bash
 
+rm -f clean_out
+
 if [ -f $1 ]
 then
     ./get_table_headers.sh $1 
@@ -8,8 +10,8 @@ else
 fi
 
 count=0
-start_line=0
-current_line=0
+start_line=1
+current_line=1
 
 touch clean_out 
 
@@ -18,14 +20,13 @@ touch clean_out
 while read line; do
     if [[ "$line" == "BEGIN:VEVENT" ]]
     then
-        start_line=$current_line
+        start_line=$((current_line+1))
     elif [[ "$line" == "END:VEVENT" ]]
     then
-        # currently nonfunctional. There's a bug where you literally just get
-        # a bunch of BEGIN:VEVENT 
-        # END:VEVENT in succession with a blank line in-between. Will need to check to see where bug is
-        echo $line
+        # Okay, now you need to pad the empty fields with whatever you just chopped.
+        echo "A catch! " $line
         echo "BEGIN:VEVENT" >> clean_out
+        echo "sed -n $start_line, $current_line p $1"
         echo "$(sed -n "$start_line,$current_line p" $1)" >> clean_out
         echo "END:VEVENT" >> clean_out
     else
@@ -35,4 +36,5 @@ while read line; do
     current_line=$((current_line+1))
 done < $1
 
-
+echo "Result is : "
+cat clean_out

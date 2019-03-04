@@ -10,6 +10,7 @@ NR == FNR {
     next
 }
 
+# Need to process $2 through $infinity
 {
     dict[$1] = $2
 }

@@ -24,17 +24,15 @@ while read line; do
     elif [[ "$line" == "END:VEVENT" ]]
     then
         # Okay, now you need to pad the empty fields with whatever you just chopped.
-        echo "A catch! " $line
         echo "BEGIN:VEVENT" >> clean_out
-        echo "sed -n $start_line, $current_line p $1"
-        echo "$(sed -n "$start_line,$current_line p" $1)" >> clean_out
+        #echo "sed -n $start_line, $((current_line-1)) p $1"
+
+        echo "$(sed -n "$start_line,$((current_line-1)) p" $1)" > clean_out_temporary
+        ./pad_empty_fields.sh clean_out_temporary >> clean_out
+
         echo "END:VEVENT" >> clean_out
-    else
-        arr[$count]="$line"
-        count=$((count + 1))
     fi
     current_line=$((current_line+1))
 done < $1
 
-echo "Result is : "
 cat clean_out

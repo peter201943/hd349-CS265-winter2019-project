@@ -8,3 +8,4 @@ The Ical Converter conforms to these specifications:
 
 The Ical Converter (icalconv) operates via a series of distributed bash and awk scripts.
 Each script can be modified before making to suit the user's needs.
+

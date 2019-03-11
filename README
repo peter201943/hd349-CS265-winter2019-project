@@ -25,7 +25,7 @@ If a error occurs, the files are retained and a message should be echoed, notify
 Ical Converter uses these scripts in this order:
 	clean_ics.sh | wget_remove.sh | get_table_headers.sh | pad_empty_fields.sh | generate_html.sh
 	
-A combination of bash and awk scripts is used. We tried to avoid Here is a brief overview of each script:
+A combination of bash and awk scripts is used. We tried to avoid mixing them, so the awk scripts are invoked with bash scripts. Here is a brief overview of each script:
 
 	clean_check.sh
 	Compares a known clean ics file with a processed messy one. Used for testing purposes within makefile.
@@ -36,13 +36,13 @@ A combination of bash and awk scripts is used. We tried to avoid Here is a brief
 	wget_remove.sh
 	Finds and removes any urls from the ics file. Generates clean_out_3.ics
 
-	get_table_headers.sh
+	get_table_headers.sh & get_table_headers.awk
 	Builds a list of html headers based on the headers in the ics file. Depends on get_table_headers.awk
 
-	pad_empty_fields.sh
+	pad_empty_fields.sh & pad_empty_fields.awk
 	Pads out any missing fields in the headers list.
 	
-	generate_table.sh
+	generate_table.sh & generate_table.awk
 	Arranges the headers list with a content list and populates a calendar structure. Depends on generate_table.awk.
 
 	generate_html.sh
@@ -57,11 +57,14 @@ We will now go into more detail on each script's behavior and usage. All scripts
 Utilizes diff to compare a known clean ics file with a messy one which is processed during the test procedure of the makefile.
 Can be invoked out of makefile with "./clean_check.ics your_ics_file"
 
+	generate_html.sh
+Step 1 of the ics cleaning process. Utilizes a while loop and sed to remove any fields between vevents. This is different from clean_ics because it selects useful vevents which do not appear within valarms. the target ics file is loaded into a temporary ics file (clean_out.ics) and edits are made to that file.
+
 	clean_ics.sh
-Utilizes a while loop and sed to remove nasty valarms and vevents. These pests are common in ics files and do not translate well to html tables, so we find and eliminate any instances of them. The target ics file is loaded into a temporary ics file (clean_out_2.ics) and in place sed calls are made to remove offending lines. clean_ics.sh is called during the build procedure of the makefile.
+Step 2 of the ics cleaning process. Utilizes a while loop and sed to remove nasty valarms and vevents. These pests are common in ics files and do not translate well to html tables, so we find and eliminate any instances of them. This script differs from generate_html because it selects bad vevents which appear within valarms. The target ics file is loaded into a temporary ics file (clean_out_2.ics) and in place sed calls are made to remove offending lines. clean_ics.sh is called during the build procedure of the makefile.
 
 	wget_remove.sh
-Utilizes grep and sed to remove any urls, complete or broken, from the target ics file. Changes are saved to a temporary ics file (clean_out_3.ics). Offending lines are saved to a list, and the list is processed by sed to eliminate them from clean_out_3.ics
+Step 3 of the ics cleaning process. Utilizes grep and sed to remove any urls, complete or broken, from the target ics file. Changes are saved to a temporary ics file (clean_out_3.ics). Offending lines are saved to a list, and the list is processed by sed to eliminate them from clean_out_3.ics
 
 	get_table_headers.sh
 Calls get_table_headers.awk, passes it into sort and uniq. This is done to preserve the purity of get_table_headers.awk. This works to removes any duplicate events.
@@ -73,19 +76,13 @@ Finds any lines with, "BEGIN," and,"END," and returns the lines between them.
 Accepts a file name, "Headers," and passes it to pad_empty_fields.awk. Otherwise returns an error statement.
 
 	pad_empty_fields.awk
-Accepts a list of lines which appear between BEGIN: VEVENT and END: VEVENT, and adds these to a dictionary. Once adding is complete, the dictionary is printed.
+Accepts a list of lines which appear between BEGIN: VEVENT and END: VEVENT, and adds these to a dictionary. Once adding is complete, the dictionary is printed. This printing process eliminates any blank fields and, "pads," them out with semicolons.
 
 	generate_table.sh
-
+Builds an HTML table given text input separated by newlines. This is then passed into generate_table.awk, and returned to finish building the table. It outputs to html.out
 	
 	generate_table.awk
-
-
-	generate_html.sh
-
-
-	generate_html.awk
-
+Accepts input from generate_table.sh and appends <tr> and <\tr> to appropriate lines to build the columns within the table.
 
 	makefile
 Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build

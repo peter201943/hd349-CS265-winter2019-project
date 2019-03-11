@@ -6,7 +6,7 @@ FILE_NAME=$(basename $(FILE))
 
 
 #TARGETS
-.PHONY: all generate test clean generate_clean
+.PHONY: all test clean generate_clean generate_headers build
 
 all: build run test
 

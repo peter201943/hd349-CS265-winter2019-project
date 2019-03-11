@@ -10,6 +10,8 @@ FILE_NAME=$(basename $(FILE))
 
 all: build run test
 
+#TODO: Just make build have the generate dependencies, then create a new bash script as stated in our proposal
+# which just runs make run FILE="$1"
 build: generate_headers generate_clean
 	./scripts/generate_table.sh $(notdir $(FILE)).temp
 

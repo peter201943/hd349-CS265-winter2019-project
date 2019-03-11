@@ -1,19 +1,11 @@
-
-#Makefile for ICS Converter
-
-
-#SHEBANGS
-#!/bin/bash
-
-
-#VARIABLES
 SHELL = /bin/bash
+SCRIPTS = ./scripts/
 CC = gcc
 RM = -rm -f
 EXE = icalconv
 
 #TARGETS
-.PHONY: all build run test clean
+.PHONY: all generate test clean
 
 all: build run test
 
@@ -21,9 +13,8 @@ build: generate_html.sh generate_table.awk get_table_headers.awk get_table_heade
 	$(EXE)= clean_ics.sh | wget_remove.sh | get_table_headers.sh | pad_empty_fields.sh | generate_html.sh
 	chmod +x $(EXE)
 
-run: build
+generate_headers: get_table_headers.awk get_table_headers.sh 
 
-	
 test: test_generate_table.sh generate
 	cat ideal.ics | $(EXE) > test1.ics
 	cat ugly_test.ics | $(EXE) > test2.ics

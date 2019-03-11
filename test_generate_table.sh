@@ -1,3 +1,3 @@
 #!/bin/bash
 
-cat ideal_clean.ics | awk -f generate_table.awk
+cat $1 | awk -f generate_table.awk

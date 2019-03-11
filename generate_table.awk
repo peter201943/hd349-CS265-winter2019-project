@@ -1,6 +1,5 @@
 BEGIN {
     FS = "[;:]"
-    RS = "\n"
 }
 
 {
@@ -9,7 +8,9 @@ BEGIN {
     } else if($1 == "END" && $2 == "VEVENT"){
         print "</tr>"
     } else {
-        print "<td>"$2"</td>"
+        # Hack that makes the first column blank so that $0 prints everything from $2 onwards
+        $1=""
+        print "<td>"$0"</td>"
     }
 }
 

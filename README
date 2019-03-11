@@ -1,0 +1,16 @@
+
+Ical Converter Program
+
+
+
+
+Authors
+
+Henry Dang
+Peter Mangelsdorf
+Professor Will Mongan
+CS 265
+
+Description
+
+Ical Converter takes an .ics file and converts it to an html table.

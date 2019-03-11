@@ -1,6 +1,8 @@
 
+
 	Project Name
 Ical Converter
+
 
 	Authors
 Henry Dang
@@ -8,18 +10,22 @@ Peter Mangelsdorf
 Professor Will Mongan
 CS 265 Drexel University
 
+
 	Description
 Ical Converter (icalconv) takes an .ics file and converts it into an html table.
 To build icalconv for your system, run, "make icalconv" or, "make all" from within the ical directory.
 
 This will create an executable bash script called icalconv in your ical directory. To use icalconv, call icalconv
-with, "./icalconv ICS_FILE".
+with, "./icalconv ICS_FILE". The file paths are generated dynamically to accommodate a variety of setups.
 
 As part of the build procedure, icalconv will generate two test files. If no errors are detected, the files are deleted.
-If a error occurs, the files are retained and a message should be echoed, notifying you of the exception.
+If an error occurs, the files are retained and a message should be echoed, notifying you of the exception.
+
 
 	Usage
-"./icalconv target_ics_file" or "./icalconv www.target_website.com/target_ics_file"
+Local File Location: "./icalconv target_ics_file"
+Internet File Location: "./icalconv www.target_website.com/target_ics_file"
+
 
 	Technical
 Ical Converter uses these scripts in this order:
@@ -53,21 +59,27 @@ A combination of bash and awk scripts is used. We tried to avoid mixing them, so
 	
 We will now go into more detail on each script's behavior and usage. All scripts are located within the, "scripts," directory, and all testing files are located within the, "test," directory.
 
+
 	clean_check.sh
 Utilizes diff to compare a known clean ics file with a messy one which is processed during the test procedure of the makefile.
 Can be invoked out of makefile with "./clean_check.ics your_ics_file"
 
+
 	generate_html.sh
 Step 1 of the ics cleaning process. Utilizes a while loop and sed to remove any fields between vevents. This is different from clean_ics because it selects useful vevents which do not appear within valarms. the target ics file is loaded into a temporary ics file (clean_out.ics) and edits are made to that file.
+
 
 	clean_ics.sh
 Step 2 of the ics cleaning process. Utilizes a while loop and sed to remove nasty valarms and vevents. These pests are common in ics files and do not translate well to html tables, so we find and eliminate any instances of them. This script differs from generate_html because it selects bad vevents which appear within valarms. The target ics file is loaded into a temporary ics file (clean_out_2.ics) and in place sed calls are made to remove offending lines. clean_ics.sh is called during the build procedure of the makefile.
 
+
 	wget_remove.sh
 Step 3 of the ics cleaning process. Utilizes grep and sed to remove any urls, complete or broken, from the target ics file. Changes are saved to a temporary ics file (clean_out_3.ics). Offending lines are saved to a list, and the list is processed by sed to eliminate them from clean_out_3.ics
 
+
 	get_table_headers.sh
 Calls get_table_headers.awk, passes it into sort and uniq. This is done to preserve the purity of get_table_headers.awk. This works to removes any duplicate events.
+
 
 	get_table_headers.awk
 Finds any lines with, "BEGIN," and,"END," and returns the lines between them.
@@ -75,14 +87,18 @@ Finds any lines with, "BEGIN," and,"END," and returns the lines between them.
 	pad_empty_fields.sh
 Accepts a file name, "Headers," and passes it to pad_empty_fields.awk. Otherwise returns an error statement.
 
+
 	pad_empty_fields.awk
 Accepts a list of lines which appear between BEGIN: VEVENT and END: VEVENT, and adds these to a dictionary. Once adding is complete, the dictionary is printed. This printing process eliminates any blank fields and, "pads," them out with semicolons.
+
 
 	generate_table.sh
 Builds an HTML table given text input separated by newlines. This is then passed into generate_table.awk, and returned to finish building the table. It outputs to html.out
 	
+	
 	generate_table.awk
 Accepts input from generate_table.sh and appends <tr> and <\tr> to appropriate lines to build the columns within the table.
+
 
 	makefile
 Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build

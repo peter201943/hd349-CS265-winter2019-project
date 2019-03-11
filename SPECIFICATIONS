@@ -22,25 +22,27 @@ The icalconv should be an easy to use, command line utility supported on most PO
 
 	HCI Specifications
 Internal Documentation
-Error Messaging
-CLI Support
+Error Messaging - Any problems which occur within the script should be presented to the user if they severley affect the operation of the overall program.
+CLI Support - Any scripts which accept arguments should notify the user when invalid or missing arguments occur.
 
 
 	Code Specifications
-Unit Testing - Unit Testing should be built in to the makefile and enable end-user error diagnosis
+Unit Testing - Unit Testing should be built in to the makefile and enable end-user error diagnosis.
 Modularity - Scripts should be independent of one another, capable of being swapped in or out with minor consequences.
-Modability - Script internals should be easily read and 
+Modability - Script internals should be easily read and have private varaibles which user can edit as needed.
 
 	
 	Documentation Specifications
-Cohesiveness
+Cohesiveness - The documentation agrees with itself.
+Accuracy - The documentation should reflect recent changes to the code.
+Depth - Documentation should supply the user with any information they need to use the program.
 
 	
 	HTML Specifications
-Browser Support
-W3 Compliance
+Browser Support - Support for Chrome, Firefox, Edge, and Safari will be tested.
+W3 Compliance - As per W3 specification, the generated HTML should be valid.
 
 
 	ICS Specifications
-IETF Compliance
-Typical ICS Analysis
+IETF Compliance - Only ICS files which comply with IETF regulations are expected.
+Typical ICS Analysis - Common errors in ICS files are accounted for.

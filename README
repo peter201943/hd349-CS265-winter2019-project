@@ -30,6 +30,7 @@ If an error occurs, the files are retained and a message should be echoed, notif
 	Usage
 Local File Location: "./icalconv target_ics_file"
 Internet File Location: "./icalconv www.target_website.com/target_ics_file"
+icalconv calls the makefile with the given filename and makes the project. You should not need to invoke make directly. Doing so should not produce any output.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
@@ -111,3 +112,6 @@ Accepts input from generate_table.sh and appends <tr> and <\tr> to appropriate l
 Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build assembles the independent bash scripts into the appropriate piped structure and assigns it to the target, "icalconv," stored as the, "EXE," variable. Since no formal languages were used, this is as close as we can conform to the rubric. Test feeds icalconv several test files to ensure it operates correctly. Error checking is facilitated through a series of assertion statements which compare the output of these files with their known correct output. Lastly, run assigns icalconv the user specified file location and runs icalconv. A cleaning target deletes all test, temporary, and generated script files. 
 	
 ----------------------------------------------------------------------------------------------------------------------------
+
+	Testing
+A convention of, "filename#," and, "filename#_expected," is used for asserting the program operates correctly.

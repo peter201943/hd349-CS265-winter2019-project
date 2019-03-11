@@ -1,16 +1,35 @@
 
-Ical Converter Program
+	Project Name
+Ical Converter
 
-
-
-
-Authors
-
+	Authors
 Henry Dang
 Peter Mangelsdorf
 Professor Will Mongan
-CS 265
+CS 265 Drexel University
 
-Description
+	Description
+Ical Converter (icalconv) takes an .ics file and converts it into an html table.
+To build icalconv for your system, run, "make icalconv" or, "make all" from within the ical directory.
 
-Ical Converter takes an .ics file and converts it to an html table.
+This will create an executable bash script called icalconv in your ical directory. To use icalconv, call icalconv
+with, "./icalconv ICS_FILE".
+
+As part of the build procedure, icalconv will generate two test files. If no errors are detected, the files are deleted.
+If a error occurs, the files are retained and a message should be echoed, notifying you of the exception.
+
+	Technical
+Ical Converter uses these scripts in this order:
+	clean_ics.sh | wget_remove.sh | get_table_headers.sh | pad_empty_fields.sh | generate_html.sh
+Here is a brief overview of each script:
+	clean_ics.sh
+Finds and removes and VAlarms or VEvents and removes them from the ics file. Generates clean_out_2.ics
+	wget_remove.sh
+Finds and removes any urls from the ics file. Generates clean_out_3.ics
+	get_table_headers.sh
+Builds a list of html headers based on the headers in the ics file. Depends on get_table_headers.awk
+	pad_empty_fields.sh
+Pads out any missing fields in the headers list.
+	generate_html.sh
+Constructs the final html file. Depends on generate_html.awk
+

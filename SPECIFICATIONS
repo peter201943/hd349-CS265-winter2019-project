@@ -2,5 +2,9 @@
 Ical Converter Specifications
 
 The Ical Converter conforms to these specifications:
-    Ability to accept relatively messy/inconveinient files
-    ...
+    Ability to accept relatively messy/inconvenient ics files
+    Ability to compile on most POSIX compliant systems
+	Ability to generate HTML files readable by most Internet browsers.
+
+The Ical Converter (icalconv) operates via a series of distributed bash and awk scripts.
+Each script can be modified before making to suit the user's needs.

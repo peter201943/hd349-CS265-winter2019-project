@@ -25,7 +25,7 @@ If a error occurs, the files are retained and a message should be echoed, notify
 Ical Converter uses these scripts in this order:
 	clean_ics.sh | wget_remove.sh | get_table_headers.sh | pad_empty_fields.sh | generate_html.sh
 	
-Here is a brief overview of each script:
+A combination of bash and awk scripts is used. We tried to avoid Here is a brief overview of each script:
 
 	clean_check.sh
 	Compares a known clean ics file with a processed messy one. Used for testing purposes within makefile.
@@ -64,16 +64,31 @@ Utilizes a while loop and sed to remove nasty valarms and vevents. These pests a
 Utilizes grep and sed to remove any urls, complete or broken, from the target ics file. Changes are saved to a temporary ics file (clean_out_3.ics). Offending lines are saved to a list, and the list is processed by sed to eliminate them from clean_out_3.ics
 
 	get_table_headers.sh
-Calls get_table_headers
+Calls get_table_headers.awk, passes it into sort and uniq. This is done to preserve the purity of get_table_headers.awk. This works to removes any duplicate events.
+
+	get_table_headers.awk
+Finds any lines with, "BEGIN," and,"END," and returns the lines between them.
 
 	pad_empty_fields.sh
+Accepts a file name, "Headers," and passes it to pad_empty_fields.awk. Otherwise returns an error statement.
+
+	pad_empty_fields.awk
+Accepts a list of lines which appear between BEGIN: VEVENT and END: VEVENT, and adds these to a dictionary. Once adding is complete, the dictionary is printed.
 
 	generate_table.sh
 
+	
+	generate_table.awk
+
+
 	generate_html.sh
 
-	makefile
 
+	generate_html.awk
+
+
+	makefile
+Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build
 	
 	
 	

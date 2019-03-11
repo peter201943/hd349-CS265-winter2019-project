@@ -1,0 +1,30 @@
+BEGIN:VEVENT
+LOCATION:Location One
+DTSTAMP:20190218T211232Z
+DTEND;TZID=America/Havana
+UID:20190218T211232Z-2005232286@marudot.com
+DTSTART;TZID=America/Havana
+DESCRIPTION:This is event one\, the very first event. \n\\"?!#@()~`{}\
+URL:www.eventone.com
+SUMMARY:Event One
+END:VEVENT
+BEGIN:VEVENT
+LOCATION:Location Two
+DTSTAMP:20190218T211232Z
+DTEND;TZID=America/Havana
+UID:20190218T211232Z-1838424245@marudot.com
+DTSTART;TZID=America/Havana
+DESCRIPTION:This is event two. It spans from 2/13 to 2/20.
+URL:www.eventtwo.com
+SUMMARY:Event Two
+END:VEVENT
+BEGIN:VEVENT
+LOCATION:Location Three
+DTSTAMP:20190218T211232Z
+DTEND;VALUE=DATE
+UID:20190218T211232Z-808085974@marudot.com
+DTSTART;VALUE=DATE
+DESCRIPTION:This is event three. It's an all-day event.
+URL:
+SUMMARY:Event Three
+END:VEVENT

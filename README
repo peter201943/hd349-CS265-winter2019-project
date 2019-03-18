@@ -1,18 +1,13 @@
+Project Name
+    Ical Converter
 
 
-	Project Name
-Ical Converter
+Authors
+    Henry Dang
+    Peter Mangelsdorf
 
-
-	Authors
-Henry Dang
-Peter Mangelsdorf
-Professor Will Mongan
-CS 265 Drexel University
-
-
-	Reading Notes
-Setting your reader to a column size of 125 is recommended for the best viewing experience.
+Reading Notes
+    Setting your reader to a column size of 125 is recommended for the best viewing experience.
 
 Contact Information
 	Henry Deng at hd349@drexel.edu
@@ -20,23 +15,26 @@ Contact Information
 
 ----------------------------------------------------------------------------------------------------------------------------
 
-	Description
+Description
+
 Ical Converter (icalconv) takes an .ics file and converts it into an html file that contains a single table.
-To build icalconv for your system, run, `make run FILE=your_file.ics`, replacing your_file.ics with the appropriate
-ICS file. Note that you do not need to use `make build`, because the `build` target is already included as a dependency
-in the `run` target.
+To build icalconv for your system, you must first use make build.
 
-This will create an executable bash script called icalconv in your ical directory. To use icalconv, call icalconv
-with, "./icalconv ICS_FILE". The file paths are generated dynamically to accommodate a variety of setups.
+Then, run icalconv.sh file_name.ics, where file_name.ics is the name of your ics file. 
 
-As part of the build procedure, icalconv will generate two test files. If no errors are detected, the files are deleted.
-If an error occurs, the files are retained and a message should be echoed, notifying you of the exception.
+As part of the build procedure, icalconv will generate multiple files, including a `headers` file, a `temp_out` file,
+a `out.html` file, and an `ideal.ics.tetmp` file. The only file here that is relevant to the user is the `out.html` file.
 
+Open the `out.html` file in either Google Chrome or Mozilla Firefox, and you will see your ics file in a table format.
 
-	Usage
-Local File Location: "./icalconv target_ics_file"
-Internet File Location: "./icalconv www.target_website.com/target_ics_file"
-icalconv calls the makefile with the given filename and makes the project. You should not need to invoke make directly. Doing so should not produce any output.
+To delete all of the generated files, including the html file, simply run make clean.
+
+Note that you should *not* execute the `run` target via `make run` on your own. You should run the icalconv script to call
+the makefile, because the icalconv script will check that the file exists and has an *.ics extension.
+
+Furthermore, icalconv can work on a URL as well, by running `icalconv.sh URL_HERE`, where `URL_HERE` is a valid URL. Note that
+if you supply an invalid URL, it will not work, and will give an error. Additionally, you cannot use this functionality if you
+are running this script inside one of Drexel's servers, because `wget` does not run correctly on Tux due to unknown reasons.
 
 ----------------------------------------------------------------------------------------------------------------------------
 
@@ -44,31 +42,31 @@ icalconv calls the makefile with the given filename and makes the project. You s
 Ical Converter uses these scripts in this order:
 	clean_ics.sh | wget_remove.sh | get_table_headers.sh | pad_empty_fields.sh | generate_html.sh
 	
-A combination of bash and awk scripts is used. We tried to avoid mixing them, so the awk scripts are invoked with bash scripts. Here is a brief overview of each script:
-
-	clean_check.sh
-	Compares a known clean ics file with a processed messy one. Used for testing purposes within makefile.
+A combination of bash and awk scripts is used. The awk scripts are invoked with bash scripts. Here is a brief overview of each script:
 
 	clean_ics.sh
-	Finds and removes and VAlarms or VEvents and removes them from the ics file. Generates clean_out_2.ics
-
-	wget_remove.sh
-	Finds and removes any urls from the ics file. Generates clean_out_3.ics
+        Finds and removes all VAlarms from the ics file. Generates a file called temp_out that has
+        all of the VAlarms removed.
 
 	get_table_headers.sh & get_table_headers.awk
-	Builds a list of html headers based on the headers in the ics file. Depends on get_table_headers.awk
+        Builds a list of html headers based on the headers in the ics file. get_table_headers.sh has get_table_headers.awk
+        as a dependency. It will generate a file called `headers` with all of the unique headers in the file.
 
 	pad_empty_fields.sh & pad_empty_fields.awk
-	Pads out any missing fields in the headers list.
+        Pads out any missing fields in the headers list by setting that missing field to a blank string. 
+        This script is called repeatedly for every VEVENT in an ics file. For example, not all VEVENTs have a
+        URL field, but if even a single VEVENT has a URL field, then all of them will have the URL field set to an 
+        empty string. This is done to make it easier to generate the HTML table.
 	
 	generate_table.sh & generate_table.awk
-	Arranges the headers list with a content list and populates a calendar structure. Depends on generate_table.awk.
-
-	generate_html.sh
-	Constructs the final html file. Depends on generate_html.awk
+        generate_table.sh depends on generate_table.awk. It will generate a file called `out.html`. It relies on the `headers`
+        file generated by `get_table_headers.sh`. The `out.html` file will be the desired output, with the ics file converted
+        into a table format that can be opened by opening the `out.html` file in Google Chrome or Mozilla Firefox.
 
 	makefile
-	Builds all of the individual scripts into a single script named icalconv.
+Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build assembles the independent bash scripts into the appropriate piped structure and assigns it to the target, "icalconv," stored as the, "EXE," variable. Since no formal languages were used, this is as close as we can conform to the rubric. Test feeds icalconv several test files to ensure it operates correctly. Error checking is facilitated through a series of assertion statements which compare the output of these files with their known correct output. Lastly, run assigns icalconv the user specified file location and runs icalconv. A cleaning target deletes all test, temporary, and generated script files. 
+	Makefile
+        Contains 
 
 We will now go into more detail on each script's behavior and usage. All scripts are located within the, "scripts," directory, and all testing files are located within the, "test," directory.
 
@@ -114,8 +112,6 @@ Builds an HTML table given text input separated by newlines. This is then passed
 Accepts input from generate_table.sh and appends <tr> and <\tr> to appropriate lines to build the columns within the table.
 
 
-	makefile
-Consists of 3 main procedures: "build", "test", and "run". For ease of use, these procedures are tied together under the, "all," phony target. Build assembles the independent bash scripts into the appropriate piped structure and assigns it to the target, "icalconv," stored as the, "EXE," variable. Since no formal languages were used, this is as close as we can conform to the rubric. Test feeds icalconv several test files to ensure it operates correctly. Error checking is facilitated through a series of assertion statements which compare the output of these files with their known correct output. Lastly, run assigns icalconv the user specified file location and runs icalconv. A cleaning target deletes all test, temporary, and generated script files. 
 	
 ----------------------------------------------------------------------------------------------------------------------------
 

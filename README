@@ -109,42 +109,52 @@ within the, "test," directory.
         Furthermore, we are required to remove them, as per our specifications
         document.
 
+    get_table_headers.awk 
+        Finds any lines with, "BEGIN:VEVENT," and,"END:VEVENT," and grabs all
+        of the fields that exist between them. This will generate a list of
+        every single VEVENT field parameter, with duplicates. (eg; multiple URL
+        descriptors, UID descriptors, and Location descriptors)
+
     get_table_headers.sh 
-        Calls get_table_headers.awk, passes it into sort and uniq. This is done
-        to preserve the purity of get_table_headers.awk. This works to removes
-        any duplicate events.
+        Calls get_table_headers.awk, passes it into sort and uniq to remove
+        the duplicates, and to give us all of the unique table headers for our table,
+        which corresponds to all of the unique field parameters in our ICS file.
 
-    generate_html.sh 
-        Step 1 of the ics cleaning process. Utilizes a while loop and sed to
-        remove any fields between VEVENTs. This is different from clean_ics
-        because it selects useful VEVENTs which do not appear within VALARMs.
-        the target ics file is loaded into a temporary ics file with a
-        .ics.temp extension, and all edits are made to that file.
+    pad_empty_fields.awk 
+        Accepts two arguments, the first one is the aforementioned "headers" file, and
+        the second one is your cleaned ICS files (without VALARMs). 
 
-    get_table_headers.awk Finds any lines with, "BEGIN," and,"END," and returns
-    the lines between them.
+        It will loop over every single field parameter in the "headers" file
+        and add them into a dictionary with the field parameter as the key, and
+        the value as a blank string. Then, it loops through every field
+        parameter in the ICS file, and every single field parameter in the
+        dictionary is set to its corresponding value in the ICS file. This
+        guarantees that all of the field parameters in the ICS file are set,
+        and any ones that are missing will already have been assigned to a
+        blank string. For example, if an ICS file has a VEVENT that is missing
+        a URL field, it will automatically be padded out by adding a URL field
+        with an empty string.
 
-    pad_empty_fields.sh Accepts a file name, "Headers," and passes it to
-    pad_empty_fields.awk. Otherwise returns an error statement.
+    pad_empty_fields.sh 
+        Requires the ICS file that you want to pass in, and a file named
+        "headers" to exist, and passes it to pad_empty_fields.awk. Otherwise
+        returns an error statement if either of these files are missing.
 
+    generate_table.awk 
+        Adds data into an HTML table by inserting the data in an ICS table into
+        a file by appending <tr> <td> DATA_HERE </td> </tr>, therefore creating
+        all of the table rows in the table. This does NOT generate the headers, nor
+        does it turn it into a true HTML file yet.
 
-    pad_empty_fields.awk Accepts a list of lines which appear between BEGIN:
-    VEVENT and END: VEVENT, and adds these to a dictionary. Once adding is
-    complete, the dictionary is printed. This printing process eliminates any
-    blank fields and, "pads," them out with semicolons.
+    generate_table.sh
+        Builds the HTML head and body, and then creates the <table> and table
+        header tags.  The outupt from generate_table.awk is then added in. This
+        is to guarnatee that the table headers are added in first, and then the
+        table data. Finally, the resulting complete HTML file is then ouputted
+        to out.html
 
-
-    generate_table.sh Builds an HTML table given text input separated by
-    newlines. This is then passed into generate_table.awk, and returned to
-    finish building the table. It outputs to html.out
-	
-	
-    generate_table.awk Accepts input from generate_table.sh and appends <tr> and
-    <\tr> to appropriate lines to build the columns within the table.
-
-
-	
 ----------------------------------------------------------------------------------------------------------------------------
 
-    Testing A convention of, "filename#," and, "filename#_expected," is used for
-    asserting the program operates correctly.
+    Testing
+        A convention of, "filename#," and, "filename#_expected," is used for
+        asserting the program operates correctly.

@@ -5,6 +5,12 @@ if [ "$#" -ne 1 ]; then
     exit 1
 fi
 
+if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
+    wget $1
+    filename=${$1##*/}
+    1="$filename"
+fi
+
 if [[ -f $1 && $1 =~ \.ics$ ]]; then
     make run FILE=$1
 else

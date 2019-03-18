@@ -8,10 +8,13 @@ fi
 filename=$1
 if [[ `wget -S --spider $1  2>&1 | grep 'HTTP/1.1 200 OK'` ]]; then
     wget $1
-    filename=${$1##*/}
+    filename=${1##*/}
+    echo $filename
 fi
 
-if [[ -f $1 && $1 =~ \.ics$ ]]; then
+dos2unix "$filename"
+
+if [[ -f $filename && $filename =~ \.ics$ ]]; then
     make run FILE=$filename
 else
     echo "That file either does not exist, or it does not have an .ics extension"

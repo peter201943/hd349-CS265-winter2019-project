@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#clean_ics.sh
+#Finds and removes all VAlarms from the ics file. Generates a file called temp_out that has all of the VAlarms removed.
+#Step 2 of the ics cleaning process. Utilizes a while loop and sed to remove nasty valarms and vevents. These pests are common in ics files and do not translate well to html tables, so we find and eliminate any instances of them. This script differs from generate_html because it selects bad vevents which appear within valarms. The target ics file is loaded into a temporary ics file (clean_out_2.ics) and in place sed calls are made to remove offending lines. clean_ics.sh is called during the build procedure of the makefile.
+
 file_name_out=$(basename $1)
 file_name_out+=".temp"
 

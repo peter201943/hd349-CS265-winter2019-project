@@ -1,19 +1,17 @@
-SHELL = /bin/bash
-SCRIPTS = ./scripts/
-CC = gcc
-EXE = icalconv
 FILE_NAME=$(basename $(FILE))
 
 
 #TARGETS
-.PHONY: all test clean generate_clean generate_headers build
+.PHONY: test clean generate_clean generate_headers build run
 
-all: build run test
-
-#TODO: Just make build have the generate dependencies, then create a new bash script as stated in our proposal
-# which just runs make run FILE="$1"
-build: generate_headers generate_clean
+run: build generate_headers generate_clean
 	./scripts/generate_table.sh $(notdir $(FILE)).temp
+
+build: ./scripts/clean_ics.sh ./scripts/generate_html.sh ./scripts/generate_table.awk ./scripts/generate_table.sh \
+		./scripts/get_table_headers.awk ./scripts/get_table_headers.sh ./scripts/pad_empty_fields.awk \
+		./scripts/pad_empty_fields.sh ./scripts/wget_remove.sh ./scripts/clean_check.sh 
+	chmod +x ./scripts/*.awk
+	chmod +x ./scripts/*.sh
 
 generate_headers: generate_clean ./scripts/get_table_headers.awk ./scripts/get_table_headers.sh
 	./scripts/get_table_headers.sh $(notdir $(FILE)).temp
@@ -24,6 +22,7 @@ ifndef FILE
 endif
 	./scripts/clean_ics.sh $(FILE)
 
+#TODO: Garbage, change this
 test: test_generate_table.sh generate
 	cat ideal.ics | $(EXE) > test1.ics
 	cat ugly_test.ics | $(EXE) > test2.ics

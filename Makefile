@@ -7,9 +7,9 @@ FILE_NAME=$(basename $(FILE))
 run: build generate_headers generate_clean
 	./scripts/generate_table.sh $(notdir $(FILE)).temp
 
-build: ./scripts/clean_ics.sh ./scripts/generate_html.sh ./scripts/generate_table.awk ./scripts/generate_table.sh \
+build: ./scripts/clean_ics.sh ./scripts/generate_table.awk ./scripts/generate_table.sh \
 		./scripts/get_table_headers.awk ./scripts/get_table_headers.sh ./scripts/pad_empty_fields.awk \
-		./scripts/pad_empty_fields.sh ./scripts/wget_remove.sh ./scripts/clean_check.sh  ./icalconv.sh
+		./scripts/pad_empty_fields.sh ./icalconv.sh
 	chmod +x ./scripts/*.awk
 	chmod +x ./scripts/*.sh
 	chmod +x ./icalconv.sh

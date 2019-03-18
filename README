@@ -156,5 +156,8 @@ within the, "test," directory.
 ----------------------------------------------------------------------------------------------------------------------------
 
     Testing
-        A convention of, "filename#," and, "filename#_expected," is used for
-        asserting the program operates correctly.
+        A convention of, "ICS_TEST_##," and, "ICS_GOOD_##," is used for
+        asserting that the program operates correctly. These tests are run from
+	within the makefile and may be invoked at any time by, "make test." Each
+	file tests a core competency of our scripts to remove valarms, clean up
+	text, and check vevents.

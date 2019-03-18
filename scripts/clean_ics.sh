@@ -4,6 +4,7 @@
 # Finds and removes all VALARMs from the ics file. Generates a
 # file called temp_out that has all of the VALARMs removed.
 
+
 file_name_out=$(basename $1)
 file_name_out+=".temp"
 
@@ -21,9 +22,7 @@ while read line; do
     then
         start_line=$((current_line))
     # When you get to the END:VALARM, take every line from when you first
-    # saw the BEGIN:VALARM, to the END:VALARM, and append it to temp_out.
-    # This is to get rid of everything that isn't in-between the two BEGIN
-    # and END tags.
+    # saw the BEGIN:VALARM, to the END:VALARM, and splice it out
     elif [[ "$line" == "END:VALARM" ]]
     then
 	echo "$(sed -n "$start_copy_line, $((start_line-1)) p" $1)" >> temp_out
@@ -43,6 +42,11 @@ while read line; do
     then
         sed -i "1, $((current_line-1))d" temp_out
         head -n -1 temp_out > $file_name_out
+        final_line=$(tail -n 1 $file_name_out)
+        if [ "$final_line" != "END:VEVENT" ]
+        then
+            echo "END:VEVENT" >> $file_name_out
+        fi
         exit 0
     else
         current_line=$((current_line+1))

@@ -13,6 +13,8 @@ BEGIN {
 }
 
 {
+    # TODO: You forgot to insert the missing rows.
+
     # Start your table row as soon as you see a "BEGIN:VEVENT"
     # and close, when you see an "END:VEVENT"
     if($1 == "BEGIN" && $2 == "VEVENT"){

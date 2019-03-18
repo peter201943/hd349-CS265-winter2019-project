@@ -26,8 +26,12 @@ NR == FNR {
 
 # In the second file, fill in all of the dictionary's values with the 2nd column
 # of data, which is the field's values.
+
+#TODO: Your bug is here.
 {
-    dict[$1] = $2
+    temp=$1
+    $1=""
+    dict[temp] = $0
 }
 
 

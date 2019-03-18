@@ -27,10 +27,21 @@ test: test_generate_table.sh generate
 	cat test/ICS_TEST_11.ics | $(EXE) > test/ICS_TEST_11.html
 	cat test/ICS_TEST_12.ics | $(EXE) > test/ICS_TEST_12.html
 	cat test/ICS_TEST_13.ics | $(EXE) > test/ICS_TEST_13.html
-	diff "test/ICS_TEST_11.html" "test/ICS_GOOD_11.html" > test/results11
-	diff "test/ICS_TEST_13.html" "test/ICS_GOOD_12.html" > test/results12
-	diff "test/ICS_TEST_12.html" "test/ICS_GOOD_13.html" > test/results13
-	cat test/results* | less
+
+	if [[(diff "test/ICS_TEST_11.html" "test/ICS_GOOD_11.html") != ""]];then
+		diff "test/ICS_TEST_11.html" "test/ICS_GOOD_11.html" > test/results11
+		$(error TEST 11 failed. See test/results11 for details)
+	fi
+
+	if [[(diff "test/ICS_TEST_12.html" "test/ICS_GOOD_12.html") != ""]];then
+		diff "test/ICS_TEST_13.html" "test/ICS_GOOD_12.html" > test/results12
+		$(error TEST 12 failed. See test/results12 for details)
+	fi
+
+	if [[(diff "test/ICS_TEST_13.html" "test/ICS_GOOD_13.html") != ""]];then
+		diff "test/ICS_TEST_12.html" "test/ICS_GOOD_13.html" > test/results13
+		$(error TEST 13 failed. See test/results13 for details)
+	fi
 
 clean:
 	rm -f temp_out *.ics.temp headers *.html *.ics *.ics.*

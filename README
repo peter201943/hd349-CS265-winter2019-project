@@ -91,7 +91,10 @@ bash scripts. Here is a brief overview of each script:
 
         The `clean` target will remove all of the ics files in the directory, as
         well as any generated files, such as the html file and the temporary
-        output files.
+        output files. This includes any generated test files in the test directory.
+
+        The `clean-non-test` target does the exact same thing as clean, but will not
+        delete the generated test files in the test directory.
 
         The test target will compare the generated html files to the expected
         html generated output, for all of the ics files in the `test` directory.
@@ -158,6 +161,11 @@ within the, "test," directory.
     Testing
         A convention of, "ICS_TEST_##," and, "ICS_GOOD_##," is used for
         asserting that the program operates correctly. These tests are run from
-	within the makefile and may be invoked at any time by, "make test." Each
-	file tests a core competency of our scripts to remove valarms, clean up
-	text, and check vevents.
+        within the makefile and may be invoked at any time by, "make test." Each
+        file tests a core competency of our scripts to remove valarms, clean up
+        text, and check vevents.
+
+        The only exception are the ideal.ics and VAlarm.ics files, which are files
+        that have no edge cases at all. When running make test, these should *never* fail,
+        because they are the simplest cases possible. If they do fail, all of the other tests
+        will likely fail as well.

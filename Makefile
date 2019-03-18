@@ -29,4 +29,4 @@ test: test_generate_table.sh generate
 	cat ugly_test.ics | $(EXE) > test2.ics
 
 clean:
-	rm -f temp_out *.ics.temp headers *.html
+	rm -f temp_out *.ics.temp headers *.html *.ics *.ics.*

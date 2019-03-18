@@ -9,9 +9,10 @@ run: build generate_headers generate_clean
 
 build: ./scripts/clean_ics.sh ./scripts/generate_html.sh ./scripts/generate_table.awk ./scripts/generate_table.sh \
 		./scripts/get_table_headers.awk ./scripts/get_table_headers.sh ./scripts/pad_empty_fields.awk \
-		./scripts/pad_empty_fields.sh ./scripts/wget_remove.sh ./scripts/clean_check.sh 
+		./scripts/pad_empty_fields.sh ./scripts/wget_remove.sh ./scripts/clean_check.sh  ./icalconv.sh
 	chmod +x ./scripts/*.awk
 	chmod +x ./scripts/*.sh
+	chmod +x ./icalconv.sh
 
 generate_headers: generate_clean ./scripts/get_table_headers.awk ./scripts/get_table_headers.sh
 	./scripts/get_table_headers.sh $(notdir $(FILE)).temp

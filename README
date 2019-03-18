@@ -14,17 +14,17 @@ CS 265 Drexel University
 	Reading Notes
 Setting your reader to a column size of 125 is recommended for the best viewing experience.
 
-
-	Contact Information
-If any bugs are found, please contact:
+Contact Information
 	Henry Deng at hd349@drexel.edu
 	Peter Mangelsdorf at pjm349@drexel.edu
 
 ----------------------------------------------------------------------------------------------------------------------------
 
 	Description
-Ical Converter (icalconv) takes an .ics file and converts it into an html table.
-To build icalconv for your system, run, "make icalconv" or, "make all" from within the ical directory.
+Ical Converter (icalconv) takes an .ics file and converts it into an html file that contains a single table.
+To build icalconv for your system, run, `make run FILE=your_file.ics`, replacing your_file.ics with the appropriate
+ICS file. Note that you do not need to use `make build`, because the `build` target is already included as a dependency
+in the `run` target.
 
 This will create an executable bash script called icalconv in your ical directory. To use icalconv, call icalconv
 with, "./icalconv ICS_FILE". The file paths are generated dynamically to accommodate a variety of setups.

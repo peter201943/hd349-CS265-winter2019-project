@@ -23,10 +23,14 @@ ifndef FILE
 endif
 	./scripts/clean_ics.sh $(FILE)
 
-#TODO: Garbage, change this
 test: test_generate_table.sh generate
-	cat ideal.ics | $(EXE) > test1.ics
-	cat ugly_test.ics | $(EXE) > test2.ics
+	cat test/ICS_TEST_11.ics | $(EXE) > test/ICS_TEST_11.html
+	cat test/ICS_TEST_12.ics | $(EXE) > test/ICS_TEST_12.html
+	cat test/ICS_TEST_13.ics | $(EXE) > test/ICS_TEST_13.html
+	diff "test/ICS_TEST_11.html" "test/ICS_GOOD_11.html" > test/results11
+	diff "test/ICS_TEST_13.html" "test/ICS_GOOD_12.html" > test/results12
+	diff "test/ICS_TEST_12.html" "test/ICS_GOOD_13.html" > test/results13
+	cat test/results* | less
 
 clean:
 	rm -f temp_out *.ics.temp headers *.html *.ics *.ics.*

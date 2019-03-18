@@ -27,4 +27,6 @@ if ! diff -q test/ideal_good.html test/ideal_test.html; then
     numErrors=$((numErrors+1))
 fi
 
+echo "-----------------------------------------"
 echo "Test suite complete with $numErrors errors"
+echo "-----------------------------------------"

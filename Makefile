@@ -35,10 +35,13 @@ test: build ./icalconv.sh
 	mv out.html test/ideal_test.html
 	./icalconv.sh test/VAlarm.ics
 	mv out.html test/VAlarm_test.html
-	make clean
 	./test.sh
+	make clean-non-test
 
 clean:
 	rm -f temp_out *.ics.temp headers *.html *.ics *.ics.*
 	rm -f test/ICS_TEST_*.html
 	rm -f test/*_test.html
+
+clean-non-test:
+	rm -f temp_out *.ics.temp headers *.html *.ics *.ics.*

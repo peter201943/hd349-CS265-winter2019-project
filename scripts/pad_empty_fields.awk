@@ -6,10 +6,12 @@
 # This accepts a SINGLE VEVENT, without the BEGIN:VEVENT
 # and END:VEVENT tags
 
+#We set the FS to separate tags (BEGIN , END) from objects (VEVENT , VALARM).
 BEGIN {
     FS = "[;:]"
 }
 
+#Process NR first, then process FNR. (sort of a hack)
 NR == FNR {
     dict[$1] = ""
     next
@@ -19,6 +21,7 @@ NR == FNR {
 {
     dict[$1] = $2
 }
+
 
 END {
     for (i in dict) {
